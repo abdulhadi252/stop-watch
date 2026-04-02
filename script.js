@@ -1,45 +1,54 @@
-let timerdisplay=document.querySelector(".timerdisplay");
-let stopBtn=document.getElementById("stopBtn");
-let startBtn=document.getElementById("startBtn");
-let resetBtn=document.getElementById("resetBtn");
- 
-let msec = 00;
-let secs = 00;
-let mins = 00;
+let timerdisplay = document.querySelector(".timerdisplay");
+let stopBtn = document.getElementById("stopBtn");
+let startBtn = document.getElementById("startBtn");
+let resetBtn = document.getElementById("resetBtn");
 
-let timerid=null;
+let msec = 0;
+let secs = 0;
+let mins = 0;
+let hours = 0; // ✅ NEW
 
-startBtn.addEventListener('click' , function(){
-    if(timerid !== null){
+let timerid = null;
+
+startBtn.addEventListener('click', function () {
+    if (timerid !== null) {
         clearInterval(timerid);
-    } 
-    timerid = setInterval(starttimer , 10);
+    }
+    timerid = setInterval(starttimer, 10);
 });
 
-stopBtn.addEventListener('click' ,function(){
+stopBtn.addEventListener('click', function () {
     clearInterval(timerid);
 });
 
-resetBtn.addEventListener('click' ,function(){
+resetBtn.addEventListener('click', function () {
     clearInterval(timerid);
-    timerdisplay.innerHTML='00 : 00 : 00'
-    msec =secs =mins = 00;
+    timerdisplay.innerHTML = '00 : 00 : 00 : 00'; // ✅ UPDATED
+    msec = secs = mins = hours = 0; // ✅ UPDATED
 });
 
-function starttimer(){
-      msec++;
-      if(msec == 100){
-        msec=0;
+function starttimer() {
+    msec++;
+
+    if (msec == 100) {
+        msec = 0;
         secs++;
-        if(secs == 60){
-            secs=0;
-            mins++;
-        }
-      }
-  
-      let msecString = msec < 10 ? `0${msec}`: msec;
-      let secsString = secs < 10 ? `0${secs}`: secs;
-      let minsString = mins < 10 ? `0${mins}`: mins;
 
-      timerdisplay.innerHTML = `${minsString}: ${secsString} : ${msecString}`;
+        if (secs == 60) {
+            secs = 0;
+            mins++;
+
+            if (mins == 60) {
+                mins = 0;
+                hours++; // ✅ NEW
+            }
+        }
+    }
+
+    let msecString = msec < 10 ? `0${msec}` : msec;
+    let secsString = secs < 10 ? `0${secs}` : secs;
+    let minsString = mins < 10 ? `0${mins}` : mins;
+    let hoursString = hours < 10 ? `0${hours}` : hours; // ✅ NEW
+
+    timerdisplay.innerHTML = `${hoursString} : ${minsString} : ${secsString} : ${msecString}`; // ✅ UPDATED
 }
